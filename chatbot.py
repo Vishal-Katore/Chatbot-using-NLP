@@ -55,8 +55,18 @@ def main():
 
     # Home Menu
     if choice == "Home":
-        st.write("Welcome to the chatbot. Please type a message and press Enter to start the conversation.")
-
+        current_hour = datetime.datetime.now().hour
+        if current_hour < 12:
+            greeting = "Good Morning!"
+        elif 12 <= current_hour < 18:
+            greeting = "Good Afternoon!"
+        else:
+            greeting = "Good Evening!"
+        
+        # Styled Greeting
+        st.markdown(f"<h1 style='text-align: center; color: #4CAF50;'>{greeting} Welcome to Intents Chatbot!</h1>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>Your AI assistant at your service 🤖</h3>", unsafe_allow_html=True)
+       
         # Check if the chat_log.csv file exists, and if not, create it with column names
         if not os.path.exists('chat_log.csv'):
             with open('chat_log.csv', 'w', newline='', encoding='utf-8') as csvfile:
@@ -64,8 +74,7 @@ def main():
                 csv_writer.writerow(['User Input', 'Chatbot Response', 'Timestamp'])
 
         counter += 1
-        user_input = st.text_input("You:", key=f"user_input_{counter}")
-
+        user_input = st.text_input("💬 Type your message here:", key=f"user_input_{counter}")
         if user_input:
 
             # Convert the user input to a string
